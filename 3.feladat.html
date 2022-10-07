@@ -2,95 +2,38 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Korongos játék</title>
+	<link rel="stylesheet" href="3.feladat.css">
+    <title>Korongós játék</title>
 </head>
 <body>
-    <blank>Te</blank><table style="background:orange; border-color:orange; font-size:2em; text-align:center; margin: auto;" id="puzzle" border="1"></table>
-    <h2>Méret:</h2>
-    <input type="checkbox" name="" id="8X8"><blank>8x8</blank>
-    <input type="checkbox" name="" id="5X5"><blank>5x5</blank>
-    <button onclick="beallitas()">Beállítás</button>
-    <p>Robot</p>
-  
+<section>
+	<h1>Tili-Toli játék</h1>
+	<h2>Méret:</h2>
+    <p><input type="checkbox"  id="2X2">2x2</p>
+    <p><input type="checkbox"  id="6X6">6x6</p>
+    <p><button id="setting" onclick="beallit()">Beállít</button></p>
+</section>
+<br>
+	<p id="play2"></p>
+    <table style="background:orange; border-color:orange; font-size:2em; text-align:center; margin: auto;" id="puzzle" border="1"></table>
+	<p id="play1"></p>
+    
  <p style="text-align:center;"><input type="button" value="Keverés" onclick="shuffle()"></p>
-    <script>
-    // ======== Tili-Toli tabla feltoltese
-	var nrow = 0;
+ <script>
+// ======== Tili-Toli tabla feltoltese
+    var nrow = 0;
 	var ncell = 0;
 
-    function beallitas(){
-    document.getElementById("8X8").checked
-    document.getElementById("5X5").checked
-    if(document.getElementById("8X8").checked == true){
-        nrow = 2;
-        ncell = 2;
-        var tt  = new Array(nrow);
-        var newrow;
-  
-    for(var i=0;i<nrow;i++){
-        newrow=document.getElementById("puzzle").insertRow(i);
-        tt[i] = new Array(ncell);
-        for(var j=0;j<ncell;j++){
-          tt[i][j]=newrow.insertCell(j);
-          tt[i][j].id=i*ncell+j;
-          tt[i][j].onclick=function(){mystep(this);};
-          tt[i][j].style.width="50px";
-          tt[i][j].style.height="50px";
-          tt[i][j].style.color="#fcfcfc";
-          tt[i][j].style.background="#ff3333";
-          // A JS 0-tol szamolja a tombelemeket, de a puzzle 1-tol!
-      }
-    }
-
-	// ============ Ures cella az utolso helyre
-	
-    // ============ Lepesek kezelese
-	function mystep(obj){
-	    // Use for testing
-		// alert('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
-        var nid = parseInt(obj.id);
-		var nempty = parseInt(empty);
-		
-		if (nid+ncell==nempty|| nid-ncell==nempty ||
-			nid+1==nempty && nempty%ncell!=0||
-			nid-1==nempty && nid%ncell!=0){
-			document.getElementById(empty.toString()).innerHTML=document.getElementById(obj.id).innerHTML;
-			document.getElementById(empty.toString()).style.background=document.getElementById(obj.id).style.background;
-			document.getElementById(obj.id).style.background="#d0d0d0";
-			document.getElementById(obj.id).innerHTML="";
-			empty=obj.id;
-		}
-	}
-	
-	// ============ Cellakevero
-	function shuffle(){
-		var xwalker;
-		var ywalker;
-		for(var i=0;i<nrow*ncell*6;i++){
-			rowwalker=Math.floor(empty/ncell);
-			cellwalker=empty%ncell;
-	
-			switch(Math.floor(Math.random()*4)) {
-			case 0: // right or left
-			    cellwalker+=(cellwalker<ncell-1)?1:-1;
-				break;
-			case 1: // left or right
-			    cellwalker+=(cellwalker>0)?-1:1;
-				break;
-			case 2: // down or up
-			    rowwalker+=(rowwalker<nrow-1)?1:-1;
-				break;
-			case 3: // up or down
-				rowwalker+=(rowwalker>0)?-1:1;
-				break;
-			}
-			mystep(document.getElementById((rowwalker*ncell+cellwalker).toString()));
-		}
-	}
-}
-    
-
+    function beallit(){
+    document.getElementById("2X2").checked
+    document.getElementById("6X6").checked
+    if(document.getElementById("2X2").checked){
+        nrow = nrow + 2
+        ncell = ncell + 2
+		document.getElementById("play2").innerHTML = "Játékos 2"
+		document.getElementById("play1").innerHTML = "játékos 1"
     var tt  = new Array(nrow);
     var newrow;
   
@@ -109,7 +52,6 @@
       }
     }
 
-	// ============ Ures cella az utolso helyre
 	
     // ============ Lepesek kezelese
 	function mystep(obj){
@@ -152,76 +94,16 @@
 				break;
 			}
 			mystep(document.getElementById((rowwalker*ncell+cellwalker).toString()));
-		}
-	}
-}
-/*
-	
-        var tt  = new Array(nrow);
-        var newrow;
-  
-    for(var i=0;i<nrow;i++){
-        newrow=document.getElementById("puzzle").insertRow(i);
-        tt[i] = new Array(ncell);
-        for(var j=0;j<ncell;j++){
-          tt[i][j]=newrow.insertCell(j);
-          tt[i][j].id=i*ncell+j;
-          tt[i][j].onclick=function(){mystep(this);};
-          tt[i][j].style.width="50px";
-          tt[i][j].style.height="50px";
-          tt[i][j].style.color="#fcfcfc";
-          tt[i][j].style.background="#ff3333";
-          // A JS 0-tol szamolja a tombelemeket, de a puzzle 1-tol!
-      }
+		    }
+	    }
     }
 
-	// ============ Ures cella az utolso helyre
-	
-    // ============ Lepesek kezelese
-	function mystep(obj){
-	    // Use for testing
-		// alert('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
-        var nid = parseInt(obj.id);
-		var nempty = parseInt(empty);
-		
-		if (nid+ncell==nempty|| nid-ncell==nempty ||
-			nid+1==nempty && nempty%ncell!=0||
-			nid-1==nempty && nid%ncell!=0){
-			document.getElementById(empty.toString()).innerHTML=document.getElementById(obj.id).innerHTML;
-			document.getElementById(empty.toString()).style.background=document.getElementById(obj.id).style.background;
-			document.getElementById(obj.id).style.background="#d0d0d0";
-			document.getElementById(obj.id).innerHTML="";
-			empty=obj.id;
-		}
-	}
-	
-	// ============ Cellakevero
-	function shuffle(){
-		var xwalker;
-		var ywalker;
-		for(var i=0;i<nrow*ncell*6;i++){
-			rowwalker=Math.floor(empty/ncell);
-			cellwalker=empty%ncell;
-	
-			switch(Math.floor(Math.random()*4)) {
-			case 0: // right or left
-			    cellwalker+=(cellwalker<ncell-1)?1:-1;
-				break;
-			case 1: // left or right
-			    cellwalker+=(cellwalker>0)?-1:1;
-				break;
-			case 2: // down or up
-			    rowwalker+=(rowwalker<nrow-1)?1:-1;
-				break;
-			case 3: // up or down
-				rowwalker+=(rowwalker>0)?-1:1;
-				break;
-			}
-			mystep(document.getElementById((rowwalker*ncell+cellwalker).toString()));
-		}
-	}
-    
-
+    // 6X6
+    else if(document.getElementById("6X6").checked){
+        nrow = nrow + 6
+        ncell = ncell + 6
+		document.getElementById("play2").innerHTML = "Játékos 2"
+		document.getElementById("play1").innerHTML = "játékos 1"
     var tt  = new Array(nrow);
     var newrow;
   
@@ -240,7 +122,6 @@
       }
     }
 
-	// ============ Ures cella az utolso helyre
 	
     // ============ Lepesek kezelese
 	function mystep(obj){
@@ -283,9 +164,11 @@
 				break;
 			}
 			mystep(document.getElementById((rowwalker*ncell+cellwalker).toString()));
-		}
-	}
-    */
-</script>
+		    }
+	    }
+    }
+}
+
+ </script>
 </body>
 </html>
