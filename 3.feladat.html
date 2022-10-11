@@ -8,26 +8,32 @@
     <title>Korongós játék</title>
 </head>
 <body>
-<section>
-	<h1>Tili-Toli játék</h1>
-	<h2>Méret:</h2>
-	<p><input type="checkbox"  id="6X6">6X6</p>
-	<p><input type="checkbox"  id="8X8">8X8</p>
-	<p><input type="checkbox"  id="10X10">10X10</p>
-	<p><input type="checkbox"  id="12X12">12X12</p>
-	<p><button id="setting" onclick="beallit()">Beállít</button></p>
-	<br>
-	<p id="kov" style="color:blue"></p>
-</section>
-<br>
+
+    <section>
+
+	    <h1>Tili-Toli játék</h1>
+	    <h2>Méret:</h2>
+	    <p><input type="checkbox"  id="6X6">6X6</p>
+	    <p><input type="checkbox"  id="8X8">8X8</p>
+	    <p><input type="checkbox"  id="10X10">10X10</p>
+	    <p><input type="checkbox"  id="12X12">12X12</p>
+  
+            <button onclick="beallit()">Beállít</button>
+    
+	    <br>
+	    <p id="kov" style="color:blue"></p>
+
+    </section>
+    <br>
 	<p id="play2"></p>
 	<p id="pont1"></p>
     <table style="background:orange; border-color:orange; font-size:2em; text-align:center; margin: auto;" id="puzzle" border="1"></table>
 	<p id="play1"></p>
 	<p id="pont2"></p>
     
- <p style="text-align:center;" id="er"></p>
- <script>
+    <p style="text-align:center;" id="er"></p>
+
+    <script>
 // ======== Tili-Toli tabla feltoltese
     var nrow = 0;
 	var ncell = 0;
@@ -39,18 +45,31 @@
     document.getElementById("8X8").checked
 	document.getElementById("10X10").checked
 	document.getElementById("12X12").checked
-	if(document.getElementById("6X6").checked){
+	if(document.getElementById("6X6").checked){ // function 6X6()
+        call6X6()
+        console.log("Megvan")
+    }else if(document.getElementById("8X8").checked){
+        call8X8()
+    }else if(document.getElementById("10X10").checked){
+        call10X10()
+    }else if(document.getElementById("12X12").checked){
+        call12X12()
+    }
+}
+    function call6X6(){
 		nrow = nrow + 6
         ncell = ncell + 6
 		document.getElementById("play2").innerHTML = "Játékos 2"
 		document.getElementById("play1").innerHTML = "játékos 1"
 		document.getElementById("kov").innerHTML = "Játékos 1 kezdje el a játékot"
+
     var tt  = new Array(nrow);
     var newrow;
   
     for(var i=0;i<nrow;i++){
         newrow=document.getElementById("puzzle").insertRow(i);
         tt[i] = new Array(ncell);
+        
         for(var j=0;j<ncell;j++){
           tt[i][j]=newrow.insertCell(j);
           tt[i][j].id=i*ncell+j;
@@ -63,6 +82,7 @@
       }
     }
 
+    alert
 	
     // ============ Lepesek kezelese
 	function mystep(obj){
@@ -71,14 +91,14 @@
 		if( kor%2 == 0){		
 		document.getElementById("kov").innerHTML = "Játékos 1 következik"
 		kor+1
-		document.getElementById(obj.id).innerHTML= '<img src="x.png" id="x">';
-		document.getElementById(obj.id).style.paddingBottom= "0px";
-		document.getElementById("x").style.marginBottom= "0px";
+		document.getElementById(obj.id).innerHTML= '<img src="kep/x.png" id="x">';
+		document.getElementById("o").style.padding= "0px";
+        document.getElementById("x").style.margin= "0px";
 
-		var pont = 0;
-		ertek1 = 1;
-		ertek2 = 2;
-		ertek3 = 3;
+		var pont1 = 0;
+		var ertek1 = 1;
+		var ertek2 = 2;
+		var ertek3 = 3;
         if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
         obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
             document.getElementById("pont1").innerHTML = pont+ertek1
@@ -92,53 +112,24 @@
 		else if(kor%2 == 1){
 		document.getElementById("kov").innerHTML = "Játékos 2 következik"
 		kor+1
-		document.getElementById(obj.id).innerHTML= '<img src="o.png" id="o">';
-		document.getElementById(obj.id).style.paddingBottom= "0px";
-		document.getElementById("o").style.marginBottom= "0px";
-		var ertek2 = 0;
+		document.getElementById(obj.id).innerHTML= '<img src="kep/o.png" id="o">';
+		document.getElementById("o").style.padding= "0px";
+		document.getElementById("o").style.margin= "0px";
+		var pont2 = 0;
         if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
         obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
-            document.getElementById("pont2").innerHTML = ertek2+1
+            document.getElementById("pont2").innerHTML = pont2+ertek1
         }else if(obj.id == 7 || obj.id == 8 || obj.id == 9 || obj.id == 10 || obj.id == 13 || obj.id == 16 || obj.id == 19 || 
          obj.id == 22 || obj.id == 25 || obj.id == 26 || obj.id == 27 || obj.id == 28){
-            document.getElementById("pont2").innerHTML = ertek2+2
+            document.getElementById("pont2").innerHTML = ertek2
         }else{
             document.getElementById("pont2").innerHTML = ertek2+3
         }
 		}
-		/*
-		document.getElementById(obj.id).innerHTML= '<img src="x.png" id="x">';
-		document.getElementById(obj.id).style.paddingBottom= "0px";
-		document.getElementById("x").style.marginBottom= "0px";
-	*/
-
-	/*	
-        var ertek2 = 0;
-        if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
-        obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
-            document.getElementById("pont1").innerHTML = ertek+1
-        }else if(obj.id == 7 || obj.id == 8 || obj.id == 9 || obj.id == 10 || obj.id == 13 || obj.id == 16 || obj.id == 19 || 
-         obj.id == 22 || obj.id == 25 || obj.id == 26 || obj.id == 27 || obj.id == 28){
-            document.getElementById("pont1").innerHTML = ertek+2
-        }else{
-            document.getElementById("pont1").innerHTML = ertek+3
-        }
-		*/		
-		 alert('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
-        var nid = parseInt(obj.id);
-		/*
-		var nempty = parseInt(empty);
+				
 		
-		if (nid+ncell==nempty|| nid-ncell==nempty ||
-			nid+1==nempty && nempty%ncell!=0||
-			nid-1==nempty && nid%ncell!=0){
-			document.getElementById(empty.toString()).innerHTML=document.getElementById(obj.id).innerHTML;
-			document.getElementById(empty.toString()).style.background=document.getElementById(obj.id).style.background;
-			document.getElementById(obj.id).style.background="#d0d0d0";
-			document.getElementById(obj.id).innerHTML="";
-			empty=obj.id;
-		}
-        */
+        var nid = parseInt(obj.id);
+		
 	}
 	
 	// ============ Cellakevero
@@ -169,7 +160,7 @@
 	    }
     }
 	//8X8
-else if(document.getElementById("8X8").checked){
+    function call8X8(){
         nrow = nrow + 8
         ncell = ncell + 8
 		document.getElementById("play2").innerHTML = "Játékos 2"
@@ -195,42 +186,50 @@ else if(document.getElementById("8X8").checked){
 	
     // ============ Lepesek kezelese
 	function mystep(obj){
-		kor= kor + 1
+		
+        kor= kor + 1
 		if( kor%2 == 0){		
 		document.getElementById("kov").innerHTML = "Játékos 1 következik"
 		kor+1
-		}
+		document.getElementById(obj.id).innerHTML= '<img src="kep/x.png" id="x">';
+		document.getElementById("o").style.padding= "0px";
+        document.getElementById("x").style.margin= "0px";
+
+		var pont1 = 0;
+		var ertek1 = 1;
+		var ertek2 = 2;
+		var ertek3 = 3;
+        if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
+        obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
+            document.getElementById("pont1").innerHTML = pont+ertek1
+        }else if(obj.id == 7 || obj.id == 8 || obj.id == 9 || obj.id == 10 || obj.id == 13 || obj.id == 16 || obj.id == 19 || 
+         obj.id == 22 || obj.id == 25 || obj.id == 26 || obj.id == 27 || obj.id == 28){
+            document.getElementById("pont1").innerHTML = pont+ertek2
+        }else{
+            document.getElementById("pont1").innerHTML = pont+ertek3
+        }
+	}
 		else if(kor%2 == 1){
 		document.getElementById("kov").innerHTML = "Játékos 2 következik"
 		kor+1
-		}
-		console.log(kor)
-	    // Use for testing
-        var ertek = 0;
+		document.getElementById(obj.id).innerHTML= '<img src="kep/o.png" id="o">';
+		document.getElementById("o").style.padding= "0px";
+		document.getElementById("o").style.margin= "0px";
+		var pont2 = 0;
         if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
         obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
-            document.getElementById("er").innerHTML = ertek+1
+            document.getElementById("pont2").innerHTML = pont2+ertek1
         }else if(obj.id == 7 || obj.id == 8 || obj.id == 9 || obj.id == 10 || obj.id == 13 || obj.id == 16 || obj.id == 19 || 
          obj.id == 22 || obj.id == 25 || obj.id == 26 || obj.id == 27 || obj.id == 28){
-            document.getElementById("er").innerHTML = ertek+2
+            document.getElementById("pont2").innerHTML = ertek2
         }else{
-            document.getElementById("er").innerHTML = ertek+3
+            document.getElementById("pont2").innerHTML = ertek2+3
         }
-		 alert('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
-        var nid = parseInt(obj.id);
-		/*
-		var nempty = parseInt(empty);
-		
-		if (nid+ncell==nempty|| nid-ncell==nempty ||
-			nid+1==nempty && nempty%ncell!=0||
-			nid-1==nempty && nid%ncell!=0){
-			document.getElementById(empty.toString()).innerHTML=document.getElementById(obj.id).innerHTML;
-			document.getElementById(empty.toString()).style.background=document.getElementById(obj.id).style.background;
-			document.getElementById(obj.id).style.background="#d0d0d0";
-			document.getElementById(obj.id).innerHTML="";
-			empty=obj.id;
 		}
-        */
+				
+		// alert('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
+        var nid = parseInt(obj.id);
+		
 	}
 	
 	// ============ Cellakevero
@@ -260,7 +259,7 @@ else if(document.getElementById("8X8").checked){
 	    }
     }
 	// 10X10
-	else if(document.getElementById("10X10").checked){
+    function call10X10(){
 		nrow = nrow + 10
         ncell = ncell + 10
 		document.getElementById("play2").innerHTML = "Játékos 2"
@@ -287,43 +286,50 @@ else if(document.getElementById("8X8").checked){
 	
     // ============ Lepesek kezelese
 	function mystep(obj){
-		kor= kor + 1
+		
+        kor= kor + 1
 		if( kor%2 == 0){		
 		document.getElementById("kov").innerHTML = "Játékos 1 következik"
 		kor+1
-		}
+		document.getElementById(obj.id).innerHTML= '<img src="kep/x.png" id="x">';
+		document.getElementById("o").style.padding= "0px";
+        document.getElementById("x").style.margin= "0px";
+
+		var pont1 = 0;
+		var ertek1 = 1;
+		var ertek2 = 2;
+		var ertek3 = 3;
+        if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
+        obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
+            document.getElementById("pont1").innerHTML = pont+ertek1
+        }else if(obj.id == 7 || obj.id == 8 || obj.id == 9 || obj.id == 10 || obj.id == 13 || obj.id == 16 || obj.id == 19 || 
+         obj.id == 22 || obj.id == 25 || obj.id == 26 || obj.id == 27 || obj.id == 28){
+            document.getElementById("pont1").innerHTML = pont+ertek2
+        }else{
+            document.getElementById("pont1").innerHTML = pont+ertek3
+        }
+	}
 		else if(kor%2 == 1){
 		document.getElementById("kov").innerHTML = "Játékos 2 következik"
 		kor+1
-		}
-		console.log(kor)
-	    // Use for testing
-
-        var ertek = 0;
+		document.getElementById(obj.id).innerHTML= '<img src="kep/o.png" id="o">';
+		document.getElementById("o").style.padding= "0px";
+		document.getElementById("o").style.margin= "0px";
+		var pont2 = 0;
         if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
         obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
-            document.getElementById("er").innerHTML = ertek+1
+            document.getElementById("pont2").innerHTML = pont2+ertek1
         }else if(obj.id == 7 || obj.id == 8 || obj.id == 9 || obj.id == 10 || obj.id == 13 || obj.id == 16 || obj.id == 19 || 
          obj.id == 22 || obj.id == 25 || obj.id == 26 || obj.id == 27 || obj.id == 28){
-            document.getElementById("er").innerHTML = ertek+2
+            document.getElementById("pont2").innerHTML = ertek2
         }else{
-            document.getElementById("er").innerHTML = ertek+3
+            document.getElementById("pont2").innerHTML = ertek2+3
         }
-		 alert('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
-        var nid = parseInt(obj.id);
-		/*
-		var nempty = parseInt(empty);
-		
-		if (nid+ncell==nempty|| nid-ncell==nempty ||
-			nid+1==nempty && nempty%ncell!=0||
-			nid-1==nempty && nid%ncell!=0){
-			document.getElementById(empty.toString()).innerHTML=document.getElementById(obj.id).innerHTML;
-			document.getElementById(empty.toString()).style.background=document.getElementById(obj.id).style.background;
-			document.getElementById(obj.id).style.background="#d0d0d0";
-			document.getElementById(obj.id).innerHTML="";
-			empty=obj.id;
 		}
-        */
+				
+		// alert('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
+        var nid = parseInt(obj.id);
+		
 	}
 	
 	// ============ Cellakevero
@@ -352,9 +358,10 @@ else if(document.getElementById("8X8").checked){
 			mystep(document.getElementById((rowwalker*ncell+cellwalker).toString()));
 		    }
 	    }
-	}
+    }
+	
 	//12X12
-	else if(document.getElementById("12X12").checked){
+	function call12X12(){
 		nrow = nrow + 12
         ncell = ncell + 12
 		document.getElementById("play2").innerHTML = "Játékos 2"
@@ -381,44 +388,50 @@ else if(document.getElementById("8X8").checked){
 	
     // ============ Lepesek kezelese
 	function mystep(obj){
-	    // Use for testing
-		kor= kor + 1
+	    
+        kor= kor + 1
 		if( kor%2 == 0){		
 		document.getElementById("kov").innerHTML = "Játékos 1 következik"
 		kor+1
-		}
+		document.getElementById(obj.id).innerHTML= '<img src="kep/x.png" id="x">';
+		document.getElementById("o").style.padding= "0px";
+        document.getElementById("x").style.margin= "0px";
+
+		var pont1 = 0;
+		var ertek1 = 1;
+		var ertek2 = 2;
+		var ertek3 = 3;
+        if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
+        obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
+            document.getElementById("pont1").innerHTML = pont+ertek1
+        }else if(obj.id == 7 || obj.id == 8 || obj.id == 9 || obj.id == 10 || obj.id == 13 || obj.id == 16 || obj.id == 19 || 
+         obj.id == 22 || obj.id == 25 || obj.id == 26 || obj.id == 27 || obj.id == 28){
+            document.getElementById("pont1").innerHTML = pont+ertek2
+        }else{
+            document.getElementById("pont1").innerHTML = pont+ertek3
+        }
+	}
 		else if(kor%2 == 1){
 		document.getElementById("kov").innerHTML = "Játékos 2 következik"
 		kor+1
-		}
-		console.log(kor)
-	
-		
-        var ertek = 0;
+		document.getElementById(obj.id).innerHTML= '<img src="kep/o.png" id="o">';
+		document.getElementById("o").style.padding= "0px";
+		document.getElementById("o").style.margin= "0px";
+		var pont2 = 0;
         if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
         obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
-            document.getElementById("er").innerHTML = ertek+1
+            document.getElementById("pont2").innerHTML = pont2+ertek1
         }else if(obj.id == 7 || obj.id == 8 || obj.id == 9 || obj.id == 10 || obj.id == 13 || obj.id == 16 || obj.id == 19 || 
          obj.id == 22 || obj.id == 25 || obj.id == 26 || obj.id == 27 || obj.id == 28){
-            document.getElementById("er").innerHTML = ertek+2
+            document.getElementById("pont2").innerHTML = ertek2
         }else{
-            document.getElementById("er").innerHTML = ertek+3
+            document.getElementById("pont2").innerHTML = ertek2+3
         }
-		 alert('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
-        var nid = parseInt(obj.id);
-		/*
-		var nempty = parseInt(empty);
-		
-		if (nid+ncell==nempty|| nid-ncell==nempty ||
-			nid+1==nempty && nempty%ncell!=0||
-			nid-1==nempty && nid%ncell!=0){
-			document.getElementById(empty.toString()).innerHTML=document.getElementById(obj.id).innerHTML;
-			document.getElementById(empty.toString()).style.background=document.getElementById(obj.id).style.background;
-			document.getElementById(obj.id).style.background="#d0d0d0";
-			document.getElementById(obj.id).innerHTML="";
-			empty=obj.id;
 		}
-        */
+				
+		// alert('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
+        var nid = parseInt(obj.id);
+		
 	}
 	
 	// ============ Cellakevero
@@ -447,9 +460,7 @@ else if(document.getElementById("8X8").checked){
 			mystep(document.getElementById((rowwalker*ncell+cellwalker).toString()));
 		    }
 	    }
-	}
-}
-
+    }
  </script>
 </body>
 </html>
