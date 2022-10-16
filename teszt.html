@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="3.feladat.css">
+    <title>Korongós játék</title>
+</head>
+<body>
+
+	<h1>Tili-Toli játék</h1>
+	<p style="text-align:center;" id="ora"></p>
+<section id="rem">
+	<h2>Méret beállítása:</h2>
+	<p><input type="checkbox"  id="6X6">6X6</p>
+	<p><input type="checkbox"  id="8X8">8X8</p>
+	<p><input type="checkbox"  id="10X10">10X10</p>
+	<p><input type="checkbox"  id="12X12">12X12</p>
+	<p><button id="setting" onclick="beallit()">Beállít</button></p>
+</section>
+	<br>
+	<p id="kov" style="color:blue"></p>
+
+<br>
+	<p id="play2"></p>
+	<p id="pontx"></p>
+    <table style="background:orange; border-color:orange; font-size:2em; text-align:center; margin: auto;" id="puzzle" border="1"></table>
+	<p id="play1"></p>
+	<p id="ponto"></p>
+ <br>
+ <script>
+// ======== Tili-Toli tabla feltoltese
+    var nrow = 0;
+	var ncell = 0;
+	var kor = 0;
+	var ertek1 = 1;
+	var ertek2 = 2;
+	var ertek3 = 3;
+	var ertek4 = 4;
+	var ertek5 = 5;
+	var ertek6 = 6;
+	var pontx = 0;
+	var ponto = 0;
+
+    function beallit(){
+    document.getElementById("6X6").checked
+    document.getElementById("8X8").checked
+	document.getElementById("10X10").checked
+	document.getElementById("12X12").checked
+	if(document.getElementById("6X6").checked){
+	document.getElementById("rem").remove()
+	call6X6()
+	startTime()
+	}
+	else if(document.getElementById("8X8").checked){
+	document.getElementById("rem").remove()
+	call8X8()
+	startTime()
+	}
+	else if(document.getElementById("10X10").checked){
+	document.getElementById("rem").remove()
+	call10X10()
+	startTime()
+	}
+	else if(document.getElementById("12X12").checked){
+	document.getElementById("rem").remove()
+	call12X12()
+	startTime()
+	}
+}
+
+    var s = 0
+    var m = 0
+    var h = 0
+
+    function startTime() { 
+
+        if(s < 10){
+            ido = h + ":" + m + ":" + "0" + s
+            if(m < 10){
+                ido = h + ":" + "0" + m + ":" + "0" + s
+            }
+
+        }else if(m >= 10){
+            ido = h + ":" + m + ":" + s
+
+        }else{
+            ido = h + ":" + "0" + m + ":" + s
+
+        }
+        if(s >= 59){
+            s = -1
+            m++  
+            }
+        if(m > 59){
+            m = 0
+            h++
+        }
+        document.getElementById('ora').innerHTML = ido;
+        setTimeout(startTime, 1000);
+
+        s = s + 1
+    }
+
+
+		
+	function call6X6(){
+	nrow =  6
+    ncell = 6
+	document.getElementById("play2").innerHTML = "Játékos 2"
+	document.getElementById("play1").innerHTML = "játékos 1"
+	document.getElementById("kov").innerHTML = "Játékos 1 kezdje el a játékot"
+    var tt  = new Array(nrow);
+    var newrow;
+  
+    for(var i=0;i<nrow;i++){
+        newrow=document.getElementById("puzzle").insertRow(i);
+        tt[i] = new Array(ncell);
+        for(var j=0;j<ncell;j++){
+          tt[i][j]=newrow.insertCell(j);
+          tt[i][j].id=i*ncell+j;
+          tt[i][j].onclick=function(){mystep(this);};
+          tt[i][j].style.width="50px";
+          tt[i][j].style.height="50px";
+          tt[i][j].style.color="#fcfcfc";
+          tt[i][j].style.background="#ff3333";
+          // A JS 0-tol szamolja a tombelemeket, de a puzzle 1-tol!
+      }
+    }
+
+	var blue = nrow * ncell - 1
+	var black = nrow * ncell -2 
+	document.getElementById(blue.toString()).style.background = "blue";
+	document.getElementById(black.toString()).style.background = "black";
+/*
+	document.getElementById(14).innerHTML= '<img src="kep/x.png" width="50" id="x">';
+	document.getElementById(21).innerHTML= '<img src="kep/x.png" width="50" id="x">';
+	document.getElementById(15).innerHTML= '<img src="kep/o.png" width="50" id="o">';
+	document.getElementById(20).innerHTML= '<img src="kep/o.png" width="50" id="o">';
+	pontx = pontx + 6
+	ponto = ponto + 6
+	document.getElementById("pontx").innerHTML = pontx
+	document.getElementById("ponto").innerHTML = ponto
+*/
+    // ============ Lepesek kezelese
+	function mystep(obj){
+	    // Use for testing
+		var nid = parseInt(obj.id);
+  		var nblue = parseInt(blue);
+		var nblack = parseInt(black)
+		kor += 1
+
+		if(kor%2 == 0){
+		if (nid + ncell == nblue || nid - ncell == nblue ||
+    	nid + 1 == nblue && nblue % ncell != 0 ||
+    	nid - 1 == nblue && nid % ncell != 0) {	
+		document.getElementById("kov").innerHTML = "Játékos 1 következik"
+		kor+1
+		document.getElementById(blue.toString()).innerHTML = document.getElementById(obj.id).innerHTML;
+    	document.getElementById(blue.toString()).style.background = document.getElementById(obj.id).style.background;
+		document.getElementById(obj.id).style.background = "blue";
+		blue = obj.id
+		}else {
+		document.getElementById(obj.id.toString()).innerHTML = document.getElementById(obj.id).innerHTML;
+    	document.getElementById(obj.id.toString()).style.background = document.getElementById(obj.id).style.background;
+		document.getElementById(blue).style.background = "blue";
+		}
+	}
+		/*
+		document.getElementById(obj.id).innerHTML= '<img src="kep/x.png" width="50" id="x">';
+		document.getElementById(obj.id).style.paddingBottom= "0px";
+		document.getElementById("x").style.marginBottom= "0px";
+        if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
+        obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
+            pontx+=1
+        }else if(obj.id == 7 || obj.id == 8 || obj.id == 9 || obj.id == 10 || obj.id == 13 || obj.id == 16 || obj.id == 19 || 
+         obj.id == 22 || obj.id == 25 || obj.id == 26 || obj.id == 27 || obj.id == 28){
+            pontx+=2
+		}else{
+            pontx+=3
+        }
+		document.getElementById("pontx").innerHTML = pontx
+	}
+}
+*/
+		else if(kor%2 == 1){
+		if(nid + ncell == nblack || nid - ncell == nblack ||
+    	nid + 1 == nblack && nblack % ncell != 0 ||
+    	nid - 1 == nblack && nid % ncell != 0){
+		document.getElementById("kov").innerHTML = "Játékos 2 következik"
+		kor + 1
+		document.getElementById(black.toString()).innerHTML = document.getElementById(obj.id).innerHTML;
+    	document.getElementById(black.toString()).style.background = document.getElementById(obj.id).style.background;
+		document.getElementById(obj.id).style.background = "black";
+    	document.getElementById(obj.id).innerHTML = "";
+		black = obj.id
+		}else{
+		document.getElementById(obj.id.toString()).innerHTML = document.getElementById(obj.id).innerHTML;
+    	document.getElementById(obj.id.toString()).style.background = document.getElementById(obj.id).style.background;
+		document.getElementById(black).style.background = "black";
+		}
+	}
+		/*
+		document.getElementById(obj.id).innerHTML= '<img src="kep/o.png" width="50" id="o">';
+		document.getElementById(obj.id).style.paddingBottom= "0px";
+		document.getElementById("o").style.marginBottom= "0px";
+        if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
+        obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
+			ponto+=1
+        }else if(obj.id == 7 || obj.id == 8 || obj.id == 9 || obj.id == 10 || obj.id == 13 || obj.id == 16 || obj.id == 19 || 
+         obj.id == 22 || obj.id == 25 || obj.id == 26 || obj.id == 27 || obj.id == 28){
+            ponto+=2
+        
+		}else{
+			ponto+=3
+		}
+		document.getElementById("ponto").innerHTML = ponto 
+	}
+	console.log('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
+        var nid = parseInt(obj.id);
+  }
+  */
+	}
+}
+	//8X8
+	function call8X8(){
+    nrow = 8
+    ncell =  8
+	document.getElementById("play2").innerHTML = "Játékos 2"
+	document.getElementById("play1").innerHTML = "játékos 1"
+	document.getElementById("kov").innerHTML = "Játékos 1 kezdje el a játékot"
+    var tt  = new Array(nrow);
+    var newrow;
+  
+    for(var i=0;i<nrow;i++){
+        newrow=document.getElementById("puzzle").insertRow(i);
+        tt[i] = new Array(ncell);
+        for(var j=0;j<ncell;j++){
+          tt[i][j]=newrow.insertCell(j);
+          tt[i][j].id=i*ncell+j;
+          tt[i][j].onclick=function(){mystep(this);};
+          tt[i][j].style.width="50px";
+          tt[i][j].style.height="50px";
+          tt[i][j].style.color="#fcfcfc";
+          tt[i][j].style.background="#ff3333";
+          // A JS 0-tol szamolja a tombelemeket, de a puzzle 1-tol!
+      }
+    }
+	document.getElementById(27).innerHTML= '<img src="kep/x.png" width="50" id="x">';
+	document.getElementById(36).innerHTML= '<img src="kep/x.png" width="50" id="x">';
+	document.getElementById(28).innerHTML= '<img src="kep/o.png" width="50" id="o">';
+	document.getElementById(35).innerHTML= '<img src="kep/o.png" width="50" id="o">';
+	pontx = pontx + 8
+	ponto = ponto + 8
+	document.getElementById("pontx").innerHTML = pontx
+	document.getElementById("ponto").innerHTML = ponto
+
+	
+    // ============ Lepesek kezelese
+	function mystep(obj){
+		kor= kor + 1
+		if( kor%2 == 0){		
+		document.getElementById("kov").innerHTML = "Játékos 1 következik"
+		kor+1
+		document.getElementById(obj.id).innerHTML= '<img src="kep/x.png" width="50" id="x">';
+		document.getElementById("x").style.padding= "0px";
+        document.getElementById("x").style.margin= "0px";
+		if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 7|| obj.id == 8 || obj.id == 15 ||obj.id == 16 || obj.id == 23 || 
+		obj.id == 24 || obj.id == 31 || obj.id == 32 || obj.id == 39 || obj.id == 40 ||obj.id == 47 || obj.id == 48 || obj.id == 55 || obj.id == 56 || obj.id == 57 || obj.id == 58 || obj.id == 59 || 
+		obj.id == 60 ||	 obj.id == 61 || obj.id == 62 || obj.id == 63){
+            pontx+=1
+        }else if( obj.id == 9 || obj.id == 10 || obj.id == 11 || obj.id == 13 || obj.id == 14 || 
+         obj.id == 17 ||  obj.id == 22 ||obj.id == 25 || obj.id == 30 || obj.id == 33 || obj.id == 38 ||
+		 obj.id == 41 || obj.id == 46 || obj.id == 49 || obj.id == 50 || obj.id == 51 || obj.id == 53 ||
+		 obj.id == 54 ){
+            pontx+=2
+        }else if(obj.id == 18 || obj.id == 19 || obj.id == 20 || obj.id == 21 || obj.id == 26 || obj.id == 29 ||
+		 obj.id == 34 || obj.id == 37 || obj.id == 43 || obj.id == 42 || obj.id == 44 || obj.id == 45){
+            pontx+=3
+        }else{
+			pontx+=4
+		}
+		document.getElementById("pontx").innerHTML = pontx
+	}
+		else if(kor%2 == 1){
+		document.getElementById("kov").innerHTML = "Játékos 2 következik"
+		kor+1
+		document.getElementById(obj.id).innerHTML= '<img src="kep/o.png" width="50" id="o">';
+		document.getElementById("ponto").style.padding= "0px";
+		document.getElementById("ponto").style.margin= "0px";
+		if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 7|| obj.id == 8 || obj.id == 15 ||obj.id == 16 || obj.id == 23 || 
+		obj.id == 24 || obj.id == 31 || obj.id == 32 || obj.id == 39 || obj.id == 40 ||obj.id == 47 || obj.id == 48 || obj.id == 55 || obj.id == 56 || obj.id == 57 || obj.id == 58 || obj.id == 59 || 
+		obj.id == 60 ||	 obj.id == 61 || obj.id == 62 || obj.id == 63){
+            ponto+=1
+        }else if( obj.id == 9 || obj.id == 10 || obj.id == 11 || obj.id == 13 || obj.id == 14 || 
+         obj.id == 17 ||  obj.id == 22 ||obj.id == 25 || obj.id == 30 || obj.id == 33 || obj.id == 38 ||
+		 obj.id == 41 || obj.id == 46 || obj.id == 49 || obj.id == 50 || obj.id == 51 || obj.id == 53 ||
+		 obj.id == 54 ){
+            ponto+=2
+        }else if(obj.id == 18 || obj.id == 19 || obj.id == 20 || obj.id == 21 || obj.id == 26 || obj.id == 29 ||
+		 obj.id == 34 || obj.id == 37 || obj.id == 43 || obj.id == 42 || obj.id == 44 || obj.id == 45){
+            ponto+=3
+        }else{
+			ponto+=4
+		}
+		document.getElementById("ponto").innerHTML = ponto
+	}
+	console.log('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
+        var nid = parseInt(obj.id);
+
+
+	}
+	
+	// ============ Cellakevero
+	function shuffle(){
+		var xwalker;
+		var ywalker;
+		for(var i=0;i<nrow*ncell*6;i++){
+			rowwalker=Math.floor(empty/ncell);
+			cellwalker=empty%ncell;
+	
+			switch(Math.floor(Math.random()*4)) {
+			case 0: // right or left
+			    cellwalker+=(cellwalker<ncell-1)?1:-1;
+				break;
+			case 1: // left or right
+			    cellwalker+=(cellwalker>0)?-1:1;
+				break;
+			case 2: // down or up
+			    rowwalker+=(rowwalker<nrow-1)?1:-1;
+				break;
+			case 3: // up or down
+				rowwalker+=(rowwalker>0)?-1:1;
+				break;
+			}
+			mystep(document.getElementById((rowwalker*ncell+cellwalker).toString()));
+		    }
+	    }
+	}
+	// 10X10
+	function call10X10() {
+	nrow = 10
+    ncell = 10
+	document.getElementById("play2").innerHTML = "Játékos 2"
+	document.getElementById("play1").innerHTML = "játékos 1"
+	document.getElementById("kov").innerHTML = "Játékos 1 kezdje el a játékot"
+    var tt  = new Array(nrow);
+    var newrow;
+  
+    for(var i=0;i<nrow;i++){
+        newrow=document.getElementById("puzzle").insertRow(i);
+        tt[i] = new Array(ncell);
+        for(var j=0;j<ncell;j++){
+          tt[i][j]=newrow.insertCell(j);
+          tt[i][j].id=i*ncell+j;
+          tt[i][j].onclick=function(){mystep(this);};
+          tt[i][j].style.width="50px";
+          tt[i][j].style.height="50px";
+          tt[i][j].style.color="#fcfcfc";
+          tt[i][j].style.background="#ff3333";
+          // A JS 0-tol szamolja a tombelemeket, de a puzzle 1-tol!
+      }
+    }
+	document.getElementById(44).innerHTML= '<img src="kep/x.png" width="50" id="x">';
+	document.getElementById(55).innerHTML= '<img src="kep/x.png" width="50" id="x">';
+	document.getElementById(45).innerHTML= '<img src="kep/o.png" width="50" id="o">';
+	document.getElementById(54).innerHTML= '<img src="kep/o.png" width="50" id="o">';
+	pontx = pontx + 10
+	ponto = ponto + 10
+	document.getElementById("pontx").innerHTML = pontx
+	document.getElementById("ponto").innerHTML = ponto
+	
+
+	
+    // ============ Lepesek kezelese
+	function mystep(obj){
+	kor= kor + 1
+	if(kor%2 == 0){		
+	document.getElementById("kov").innerHTML = "Játékos 1 következik"
+
+	document.getElementById(obj.id).innerHTML= '<img src="kep/x.png" width="50" id="x">';
+	document.getElementById("x").style.padding= "0px";
+        document.getElementById("x").style.margin= "0px";
+		if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 7 || obj.id == 8|| obj.id == 9 ||
+        obj.id == 10 || obj.id == 19 || obj.id == 20 || obj.id == 29 || obj.id == 30 || obj.id == 39 || obj.id == 40 || obj.id == 49 || obj.id == 50 || obj.id == 59 ||
+		obj.id == 60 || obj.id == 69 || obj.id == 70 || obj.id == 79 || obj.id == 80 || obj.id == 89 || obj.id == 90 || obj.id == 99){
+            pontx+=1
+        }
+		else if(obj.id == 11 || obj.id == 12 || obj.id == 13 || obj.id == 14 || obj.id == 15 || obj.id == 16 || obj.id == 17 || obj.id == 18 ||
+		 obj.id == 21 || obj.id == 28 || obj.id == 28 || obj.id == 31 || obj.id ==33 || obj.id == 38 || obj.id == 41 ||
+		 obj.id == 48 || obj.id == 51 || obj.id == 58 || obj.id == 61 || obj.id == 68 || obj.id == 71 || obj.id == 78 || obj.id == 81 ||
+		 obj.id == 82 || obj.id == 83 || obj.id == 84 ||  obj.id == 85 ||  obj.id == 86 || obj.id == 87 || obj.id == 88){
+            pontx+=2
+        }
+		else if(obj.id == 22 || obj.id == 23 || obj.id == 24 ||obj.id == 25 || obj.id == 26 || obj.id == 27 || obj.id == 32 ||
+		 obj.id == 37 || obj.id == 42 || obj.id == 47 || obj.id == 52 || obj.id == 57 || obj.id == 62 || obj.id == 67 || 
+		 obj.id == 72 || obj.id == 73 || obj.id == 74 || obj.id==75 || obj.id == 76 || obj.id == 77){
+            pontx+=3
+        }
+		else if( obj.id == 34 || obj.id == 35 || obj.id == 36 || obj.id == 43 || obj.id == 46 || obj.id == 53 ||
+		obj.id == 56 || obj.id == 63 || obj.id == 64 || obj.id == 65 || obj.id == 66 || obj.id == 73 || obj.id == 74 || obj.id == 75 || obj.id == 76){
+			pontx+=4
+		}
+		else{
+            pontx+=5
+		}
+		document.getElementById("pontx").innerHTML = pontx
+	}
+		else if(kor%2 == 1){
+		document.getElementById("kov").innerHTML = "Játékos 2 következik"
+		kor+1
+		document.getElementById(obj.id).innerHTML= '<img src="kep/o.png" width="50" id="o">';
+		document.getElementById("o").style.padding= "0px";
+		document.getElementById("o").style.margin= "0px";
+		if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 7 || obj.id == 8|| obj.id == 9 ||
+        obj.id == 10 || obj.id == 19 || obj.id == 20 || obj.id == 29 || obj.id == 30 || obj.id == 39 || obj.id == 40 || obj.id == 49 || obj.id == 50 || obj.id == 59 ||
+		obj.id == 60 || obj.id == 69 || obj.id == 70 || obj.id == 79 || obj.id == 80 || obj.id == 89 || obj.id == 90 || obj.id == 99){
+            ponto+=1
+        }
+		else if(obj.id == 11 || obj.id == 12 || obj.id == 13 || obj.id == 14 || obj.id == 15 || obj.id == 16 || obj.id == 17 || obj.id == 18 ||
+		 obj.id == 21 || obj.id == 28 || obj.id == 28 || obj.id == 31 || obj.id == 38 || obj.id == 41 ||
+		 obj.id == 48 || obj.id == 51 || obj.id == 58 || obj.id == 61 || obj.id == 68 || obj.id == 71 || obj.id == 78 || obj.id == 81 ||
+		 obj.id == 82 || obj.id == 83 || obj.id == 84 ||  obj.id == 85 ||  obj.id == 86 || obj.id == 87 || obj.id == 88){
+            ponto+=2
+        }
+		else if(obj.id == 22 || obj.id == 23 || obj.id == 24 ||obj.id == 25 || obj.id == 26 || obj.id == 27 || obj.id == 32 ||
+		 obj.id == 37 || obj.id == 42 || obj.id == 47 || obj.id == 52 || obj.id == 57 || obj.id == 62 || obj.id == 67 || 
+		 obj.id == 72 || obj.id == 73 || obj.id == 74 || obj.id==75 || obj.id == 76 || obj.id == 77){
+            ponto+=3
+        }
+		else if(obj.id == 33 || obj.id == 34 || obj.id == 35 || obj.id == 36 || obj.id == 43 || obj.id == 46 || obj.id == 53 ||
+		obj.id == 56 || obj.id == 63 || obj.id == 64 || obj.id == 65 || obj.id == 66 || obj.id == 73 || obj.id == 74 || obj.id == 75 || obj.id == 76){
+			ponto+=4
+		}
+		else{
+            ponto+=5
+		}
+		document.getElementById("ponto").innerHTML = ponto
+	}
+	console.log(kor);
+	    // Use for testing
+       
+		console.log('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
+        var nid = parseInt(obj.id);
+	}
+	
+	// ============ Cellakevero
+	
+	function shuffle(){
+		var xwalker;
+		var ywalker;
+		for(var i=0;i<nrow*ncell*6;i++){
+			rowwalker=Math.floor(empty/ncell);
+			cellwalker=empty%ncell;
+	
+			switch(Math.floor(Math.random()*4)) {
+			case 0: // right or left
+			    cellwalker+=(cellwalker<ncell-1)?1:-1;
+				break;
+			case 1: // left or right
+			    cellwalker+=(cellwalker>0)?-1:1;
+				break;
+			case 2: // down or up
+			    rowwalker+=(rowwalker<nrow-1)?1:-1;
+				break;
+			case 3: // up or down
+				rowwalker+=(rowwalker>0)?-1:1;
+				break;
+			}
+			mystep(document.getElementById((rowwalker*ncell+cellwalker).toString()));
+		    }
+	    }
+	}
+	//12X12
+	function call12X12(){
+	nrow = 12
+    ncell = 12
+	document.getElementById("play2").innerHTML = "Játékos 2"
+	document.getElementById("play1").innerHTML = "játékos 1"
+	document.getElementById("kov").innerHTML = "Játékos 1 kezdje el a játékot"
+    var tt  = new Array(nrow);
+    var newrow;
+  
+    for(var i=0;i<nrow;i++){
+        newrow=document.getElementById("puzzle").insertRow(i);
+        tt[i] = new Array(ncell);
+        for(var j=0;j<ncell;j++){
+          tt[i][j]=newrow.insertCell(j);
+          tt[i][j].id=i*ncell+j;
+          tt[i][j].onclick=function(){mystep(this);};
+          tt[i][j].style.width="50px";
+          tt[i][j].style.height="50px";
+          tt[i][j].style.color="#fcfcfc";
+          tt[i][j].style.background="#ff3333";
+          // A JS 0-tol szamolja a tombelemeket, de a puzzle 1-tol!
+		}
+
+    }
+	document.getElementById(65).innerHTML= '<img src="kep/x.png" width="50" id="x">';
+	document.getElementById(78).innerHTML= '<img src="kep/x.png" width="50" id="x">';
+	document.getElementById(66).innerHTML= '<img src="kep/o.png" width="50" id="o">';
+	document.getElementById(77).innerHTML= '<img src="kep/o.png" width="50" id="o">';
+	pontx = pontx + 12
+	ponto = ponto + 12
+	document.getElementById("pontx").innerHTML = pontx
+	document.getElementById("ponto").innerHTML = ponto
+	
+    // ============ Lepesek kezelese
+	function mystep(obj){
+	    // Use for testing
+		kor= kor + 1
+		if( kor%2 == 0){		
+		document.getElementById("kov").innerHTML = "Játékos 1 következik"
+		kor+1
+		document.getElementById(obj.id).innerHTML= '<img src="kep/x.png" width="50" id="x">';
+		document.getElementById("x").style.padding= "0px";
+        document.getElementById("x").style.margin= "0px";
+		if(obj.id == 65 || obj.id == 66 || obj.id == 77 || obj.id == 78){
+        	pontx+=6
+		}
+		else if(obj.id == 52 || obj.id == 53 || obj.id == 54 || obj.id == 55 || obj.id == 64 || obj.id == 67 ||
+		 obj.id == 76 || obj.id == 79 || obj.id == 88 || obj.id == 89 || obj.id == 90 || obj.id == 91){
+            pontx+=5
+		}
+		else if(obj.id == 39 || obj.id == 40 || obj.id == 41 || obj.id == 42 || obj.id == 43 || obj.id == 44 ||
+		obj.id == 51 || obj.id == 55 || obj.id == 56|| obj.id == 63 || obj.id == 64 || obj.id == 68 || obj.id == 75 || obj.id == 76 || obj.id == 80 ||
+		obj.id == 87 || obj.id == 92 || obj.id == 99 || obj.id == 100 || obj.id == 101 || obj.id == 102 || obj.id == 103||
+		obj.id == 104){
+            pontx+=4
+		}
+		else if(obj.id == 26 || obj.id == 27 || obj.id == 28 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 || 
+		obj.id == 33 || obj.id == 45 || obj.id == 57 || obj.id == 69 || obj.id == 81 || obj.id == 93 || obj.id == 105 || obj.id == 117 ||
+		obj.id == 116 ||obj.id == 115 || obj.id == 114 || obj.id == 113 || obj.id == 112 || obj.id == 111 || obj.id == 110 || obj.id == 98 ||
+		obj.id == 86 || obj.id == 74 || obj.id == 62 || obj.id == 50 || obj.id == 38 || obj.id == 26){
+			pontx+=3
+			}
+		else if(obj.id == 13 || obj.id == 14 || obj.id == 15 || obj.id == 16 || obj.id == 17 || obj.id == 18 || obj.id == 19 ||obj.id == 20 ||
+		obj.id == 21 ||obj.id == 22 || obj.id == 34 || obj.id == 46 || obj.id == 58 || obj.id == 70 || obj.id == 82 || obj.id == 94 || obj.id == 106 ||obj.id == 118 ||
+		 obj.id == 130 || obj.id == 129 ||obj.id == 128 ||obj.id == 127 ||obj.id == 126 ||obj.id == 125 || obj.id == 124 || obj.id == 123 ||obj.id == 122 ||
+		obj.id == 121 || obj.id == 109 ||obj.id == 97 ||obj.id == 85 || obj.id == 73 ||obj.id == 61 || obj.id == 49 || obj.id == 37 || obj.id == 25 || 
+		obj.id == 13 ){
+			pontx+=2
+		}else{
+			pontx+=1
+		}
+		document.getElementById("pontx").innerHTML = pontx
+	}
+		else if(kor%2 == 1){
+		document.getElementById("kov").innerHTML = "Játékos 2 következik"
+		kor+1
+		document.getElementById(obj.id).innerHTML= '<img src="kep/o.png" width="50" id="o">';
+		document.getElementById("o").style.padding= "0px";
+		document.getElementById("o").style.margin= "0px";
+		if(obj.id == 65 || obj.id == 66 || obj.id == 77 || obj.id == 78){
+            ponto+=6
+		}
+    	else if(obj.id == 52 || obj.id == 53 || obj.id == 54 || obj.id == 55 || obj.id == 64 || obj.id == 67 ||
+		 obj.id == 76 || obj.id == 79 || obj.id == 88 || obj.id == 89 || obj.id == 90 || obj.id == 91){
+            ponto+=5
+		}
+        else if(obj.id == 39 || obj.id == 40 || obj.id == 41 || obj.id == 42 || obj.id == 43 || obj.id == 44 ||
+		obj.id == 51 || obj.id == 56 || obj.id == 63 || obj.id == 64 || obj.id == 68 || obj.id == 75 ||obj.id == 76 || obj.id == 80 ||
+		obj.id == 87 || obj.id == 92 || obj.id == 99 || obj.id == 100 || obj.id == 101 || obj.id == 102 || obj.id == 103||obj.id == 104){
+			ponto+=4
+		}
+		else if(obj.id == 26 || obj.id == 27 || obj.id == 28 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 || 
+		obj.id == 33 || obj.id == 45 || obj.id == 57 || obj.id == 69 || obj.id == 81 || obj.id == 93 || obj.id == 105 || obj.id == 117 ||
+		obj.id == 116 ||obj.id == 115 || obj.id == 114 || obj.id == 113 || obj.id == 112 || obj.id == 111 || obj.id == 110 || obj.id == 98 ||
+		obj.id == 86 || obj.id == 74 || obj.id == 62 || obj.id == 50 || obj.id == 38 || obj.id == 26){
+			ponto+=3
+		}
+		else if(obj.id == 13 || obj.id == 14 || obj.id == 15 || obj.id == 16 || obj.id == 17 || obj.id == 18 || obj.id == 19 ||obj.id == 20 ||
+		obj.id == 21 || obj.id == 22 || obj.id == 34 || obj.id == 46 || obj.id == 58 || obj.id == 70 || obj.id == 82 || obj.id == 94 || obj.id == 106||obj.id == 118 || obj.id == 130 || 
+		obj.id == 129 || obj.id == 128 ||obj.id == 127 ||obj.id == 126 ||obj.id == 125 || obj.id == 124 || obj.id == 123 ||obj.id == 122 ||
+		obj.id == 121 || obj.id == 109 ||obj.id == 97 ||obj.id == 85 || obj.id == 73 ||obj.id == 61 || obj.id == 49 || obj.id == 37 || obj.id == 25 || obj.id == 13 ){
+			ponto+=2
+		}
+		else{
+			ponto+=1
+		}
+		document.getElementById("ponto").innerHTML = ponto
+	}	
+		console.log('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
+        var nid = parseInt(obj.id);
+
+	}
+	
+	// ============ Cellakevero
+	
+	function shuffle(){
+		var xwalker;
+		var ywalker;
+		for(var i=0;i<nrow*ncell*6;i++){
+			rowwalker=Math.floor(empty/ncell);
+			cellwalker=empty%ncell;
+	
+			switch(Math.floor(Math.random()*4)) {
+			case 0: // right or left
+			    cellwalker+=(cellwalker<ncell-1)?1:-1;
+				break;
+			case 1: // left or right
+			    cellwalker+=(cellwalker>0)?-1:1;
+				break;
+			case 2: // down or up
+			    rowwalker+=(rowwalker<nrow-1)?1:-1;
+				break;
+			case 3: // up or down
+				rowwalker+=(rowwalker>0)?-1:1;
+				break;
+			}
+			mystep(document.getElementById((rowwalker*ncell+cellwalker).toString()));
+		    }
+	    }
+	}
+
+
+
+</script>
+</body>
+</html>
