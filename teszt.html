@@ -128,12 +128,7 @@
           // A JS 0-tol szamolja a tombelemeket, de a puzzle 1-tol!
       }
     }
-
-	var blue = nrow * ncell - 1
-	var black = nrow * ncell -2 
-	document.getElementById(blue.toString()).style.background = "blue";
-	document.getElementById(black.toString()).style.background = "black";
-/*
+ 
 	document.getElementById(14).innerHTML= '<img src="kep/x.png" width="50" id="x">';
 	document.getElementById(21).innerHTML= '<img src="kep/x.png" width="50" id="x">';
 	document.getElementById(15).innerHTML= '<img src="kep/o.png" width="50" id="o">';
@@ -142,35 +137,18 @@
 	ponto = ponto + 6
 	document.getElementById("pontx").innerHTML = pontx
 	document.getElementById("ponto").innerHTML = ponto
-*/
     // ============ Lepesek kezelese
 	function mystep(obj){
 	    // Use for testing
 		var nid = parseInt(obj.id);
-  		var nblue = parseInt(blue);
-		var nblack = parseInt(black)
 		kor += 1
-
 		if(kor%2 == 0){
-		if (nid + ncell == nblue || nid - ncell == nblue ||
-    	nid + 1 == nblue && nblue % ncell != 0 ||
-    	nid - 1 == nblue && nid % ncell != 0) {	
-		document.getElementById("kov").innerHTML = "Játékos 1 következik"
-		kor+1
-		document.getElementById(blue.toString()).innerHTML = document.getElementById(obj.id).innerHTML;
-    	document.getElementById(blue.toString()).style.background = document.getElementById(obj.id).style.background;
-		document.getElementById(obj.id).style.background = "blue";
-		blue = obj.id
-		}else {
-		document.getElementById(obj.id.toString()).innerHTML = document.getElementById(obj.id).innerHTML;
-    	document.getElementById(obj.id.toString()).style.background = document.getElementById(obj.id).style.background;
-		document.getElementById(blue).style.background = "blue";
-		}
-	}
-		/*
-		document.getElementById(obj.id).innerHTML= '<img src="kep/x.png" width="50" id="x">';
+            if(document.getElementById(obj.id).innerHTML = '<img src="kep/x.png" width="50" id="x">'){
+                document.getElementById(obj.id).innerHTML = '<img src="kep/x.png" width="50" id="x">'
+            }
+        document.getElementById("kov").innerHTML = "Játékos 1 következik"
+        document.getElementById(obj.id).innerHTML= '<img src="kep/x.png" width="50" id="x">';
 		document.getElementById(obj.id).style.paddingBottom= "0px";
-		document.getElementById("x").style.marginBottom= "0px";
         if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
         obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
             pontx+=1
@@ -182,29 +160,16 @@
         }
 		document.getElementById("pontx").innerHTML = pontx
 	}
-}
-*/
-		else if(kor%2 == 1){
-		if(nid + ncell == nblack || nid - ncell == nblack ||
-    	nid + 1 == nblack && nblack % ncell != 0 ||
-    	nid - 1 == nblack && nid % ncell != 0){
-		document.getElementById("kov").innerHTML = "Játékos 2 következik"
-		kor + 1
-		document.getElementById(black.toString()).innerHTML = document.getElementById(obj.id).innerHTML;
-    	document.getElementById(black.toString()).style.background = document.getElementById(obj.id).style.background;
-		document.getElementById(obj.id).style.background = "black";
-    	document.getElementById(obj.id).innerHTML = "";
-		black = obj.id
-		}else{
-		document.getElementById(obj.id.toString()).innerHTML = document.getElementById(obj.id).innerHTML;
-    	document.getElementById(obj.id.toString()).style.background = document.getElementById(obj.id).style.background;
-		document.getElementById(black).style.background = "black";
-		}
-	}
-		/*
-		document.getElementById(obj.id).innerHTML= '<img src="kep/o.png" width="50" id="o">';
+        }
+        
+    
+
+		if(kor%2 == 1){
+        document.getElementById("kov").innerHTML = "Játékos 2 következik"
+        document.getElementById(obj.id).innerHTML= '<img src="kep/o.png" width="50" id="o">';
 		document.getElementById(obj.id).style.paddingBottom= "0px";
 		document.getElementById("o").style.marginBottom= "0px";
+            
         if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
         obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
 			ponto+=1
@@ -216,13 +181,13 @@
 			ponto+=3
 		}
 		document.getElementById("ponto").innerHTML = ponto 
-	}
-	console.log('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
-        var nid = parseInt(obj.id);
-  }
-  */
-	}
-}
+	console.log('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')'); 
+            }else if(Number(obj.id) == document.getElementById(obj.id).innerHTML == '<img src="kep/x.png" width="50" id="x">'){
+                console.log(Number(obj.id)+"IS True")
+            }
+        }
+
+
 	//8X8
 	function call8X8(){
     nrow = 8
