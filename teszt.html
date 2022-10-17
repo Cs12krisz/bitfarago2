@@ -34,12 +34,6 @@
     var nrow = 0;
 	var ncell = 0;
 	var kor = 0;
-	var ertek1 = 1;
-	var ertek2 = 2;
-	var ertek3 = 3;
-	var ertek4 = 4;
-	var ertek5 = 5;
-	var ertek6 = 6;
 	var pontx = 0;
 	var ponto = 0;
 
@@ -128,7 +122,9 @@
           // A JS 0-tol szamolja a tombelemeket, de a puzzle 1-tol!
       }
     }
- 
+
+
+
 	document.getElementById(14).innerHTML= '<img src="kep/x.png" width="50" id="x">';
 	document.getElementById(21).innerHTML= '<img src="kep/x.png" width="50" id="x">';
 	document.getElementById(15).innerHTML= '<img src="kep/o.png" width="50" id="o">';
@@ -137,57 +133,73 @@
 	ponto = ponto + 6
 	document.getElementById("pontx").innerHTML = pontx
 	document.getElementById("ponto").innerHTML = ponto
+
     // ============ Lepesek kezelese
 	function mystep(obj){
+		
+	var egy = [obj.id == 0, obj.id == 1, obj.id == 2, obj.id == 3, obj.id == 4, obj.id == 5, obj.id == 6, obj.id == 11, obj.id == 12, obj.id == 17,
+		obj.id == 18, obj.id == 23, obj.id == 24, obj.id == 29, obj.id == 30, obj.id == 31, obj.id == 32, obj.id == 33,  obj.id == 34,  obj.id == 35 ]
+	var ketto = [obj.id == 7, obj.id == 8, obj.id == 9, obj.id == 10, obj.id == 13, obj.id == 16, obj.id == 19, 
+        obj.id == 22, obj.id == 25, obj.id == 26, obj.id == 27, obj.id == 28]
+	var harom = [obj.id == 14, obj.id == 15, obj.id == 20, obj.id == 21]
 	    // Use for testing
 		var nid = parseInt(obj.id);
+  		var nx = parseInt(x);
+		var no = parseInt(o)
 		kor += 1
+
 		if(kor%2 == 0){
-            if(document.getElementById(obj.id).innerHTML = '<img src="kep/x.png" width="50" id="x">'){
-                document.getElementById(obj.id).innerHTML = '<img src="kep/x.png" width="50" id="x">'
-            }
-        document.getElementById("kov").innerHTML = "Játékos 1 következik"
-        document.getElementById(obj.id).innerHTML= '<img src="kep/x.png" width="50" id="x">';
+		document.getElementById("kov").innerHTML = "Játékos 1 következik"
+		kor+1
+
+		document.getElementById(obj.id).innerHTML= '<img src="kep/x.png" width="50" id="x">';
 		document.getElementById(obj.id).style.paddingBottom= "0px";
-        if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
-        obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
+		document.getElementById("x").style.marginBottom= "0px";
+		
+        if(egy){
             pontx+=1
-        }else if(obj.id == 7 || obj.id == 8 || obj.id == 9 || obj.id == 10 || obj.id == 13 || obj.id == 16 || obj.id == 19 || 
-         obj.id == 22 || obj.id == 25 || obj.id == 26 || obj.id == 27 || obj.id == 28){
+        }else if(ketto){
             pontx+=2
-		}else{
+		}else if(harom){
             pontx+=3
         }
-		document.getElementById("pontx").innerHTML = pontx
 	}
-        }
-        
-    
-
+		
 		if(kor%2 == 1){
-        document.getElementById("kov").innerHTML = "Játékos 2 következik"
-        document.getElementById(obj.id).innerHTML= '<img src="kep/o.png" width="50" id="o">';
+		document.getElementById("kov").innerHTML = "Játékos 2 következik"
+		kor + 1
+		document.getElementById(obj.id).innerHTML= '<img src="kep/o.png" width="50" id="o">';
 		document.getElementById(obj.id).style.paddingBottom= "0px";
 		document.getElementById("o").style.marginBottom= "0px";
-            
-        if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
-        obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
+		
+        if(egy){
 			ponto+=1
-        }else if(obj.id == 7 || obj.id == 8 || obj.id == 9 || obj.id == 10 || obj.id == 13 || obj.id == 16 || obj.id == 19 || 
-         obj.id == 22 || obj.id == 25 || obj.id == 26 || obj.id == 27 || obj.id == 28){
+        }else if(ketto){
             ponto+=2
         
-		}else{
+		}else if(harom){
 			ponto+=3
 		}
-		document.getElementById("ponto").innerHTML = ponto 
-	console.log('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')'); 
-            }else if(Number(obj.id) == document.getElementById(obj.id).innerHTML == '<img src="kep/x.png" width="50" id="x">'){
-                console.log(Number(obj.id)+"IS True")
-            }
-        }
+	}
+		
+	while(obj.id != '<img src="kep/x.png" width="50" id="x">' || '<img src="kep/o.png" width="50" id="o">'){
+		console.log('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
+		document.getElementById("ponto").innerHTML = ponto
+		document.getElementById("pontx").innerHTML = pontx
+		return;
+	}if(newrow == '<img src="kep/x.png" width="50" id="x">' || '<img src="kep/o.png" width="50" id="o">'){
+		console.log("Vége")
+		if(pontx < ponto){
+			alert("Játékos 2 nyert!")	
+		}else if(ponto < pontx){
+			alert("Játékos 1 nyert!")
+			}
+		}
+		
+	}
+}
 
-
+  
 	//8X8
 	function call8X8(){
     nrow = 8
@@ -276,33 +288,7 @@
 
 
 	}
-	
-	// ============ Cellakevero
-	function shuffle(){
-		var xwalker;
-		var ywalker;
-		for(var i=0;i<nrow*ncell*6;i++){
-			rowwalker=Math.floor(empty/ncell);
-			cellwalker=empty%ncell;
-	
-			switch(Math.floor(Math.random()*4)) {
-			case 0: // right or left
-			    cellwalker+=(cellwalker<ncell-1)?1:-1;
-				break;
-			case 1: // left or right
-			    cellwalker+=(cellwalker>0)?-1:1;
-				break;
-			case 2: // down or up
-			    rowwalker+=(rowwalker<nrow-1)?1:-1;
-				break;
-			case 3: // up or down
-				rowwalker+=(rowwalker>0)?-1:1;
-				break;
-			}
-			mystep(document.getElementById((rowwalker*ncell+cellwalker).toString()));
-		    }
-	    }
-	}
+}
 	// 10X10
 	function call10X10() {
 	nrow = 10
@@ -409,34 +395,7 @@
 		console.log('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
         var nid = parseInt(obj.id);
 	}
-	
-	// ============ Cellakevero
-	
-	function shuffle(){
-		var xwalker;
-		var ywalker;
-		for(var i=0;i<nrow*ncell*6;i++){
-			rowwalker=Math.floor(empty/ncell);
-			cellwalker=empty%ncell;
-	
-			switch(Math.floor(Math.random()*4)) {
-			case 0: // right or left
-			    cellwalker+=(cellwalker<ncell-1)?1:-1;
-				break;
-			case 1: // left or right
-			    cellwalker+=(cellwalker>0)?-1:1;
-				break;
-			case 2: // down or up
-			    rowwalker+=(rowwalker<nrow-1)?1:-1;
-				break;
-			case 3: // up or down
-				rowwalker+=(rowwalker>0)?-1:1;
-				break;
-			}
-			mystep(document.getElementById((rowwalker*ncell+cellwalker).toString()));
-		    }
-	    }
-	}
+}
 	//12X12
 	function call12X12(){
 	nrow = 12
@@ -460,8 +419,9 @@
           tt[i][j].style.background="#ff3333";
           // A JS 0-tol szamolja a tombelemeket, de a puzzle 1-tol!
 		}
-
     }
+	
+
 	document.getElementById(65).innerHTML= '<img src="kep/x.png" width="50" id="x">';
 	document.getElementById(78).innerHTML= '<img src="kep/x.png" width="50" id="x">';
 	document.getElementById(66).innerHTML= '<img src="kep/o.png" width="50" id="o">';
@@ -473,6 +433,7 @@
 	
     // ============ Lepesek kezelese
 	function mystep(obj){
+		 
 	    // Use for testing
 		kor= kor + 1
 		if( kor%2 == 0){		
@@ -541,43 +502,13 @@
 		obj.id == 121 || obj.id == 109 ||obj.id == 97 ||obj.id == 85 || obj.id == 73 ||obj.id == 61 || obj.id == 49 || obj.id == 37 || obj.id == 25 || obj.id == 13 ){
 			ponto+=2
 		}
-		else{
-			ponto+=1
-		}
 		document.getElementById("ponto").innerHTML = ponto
 	}	
 		console.log('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
         var nid = parseInt(obj.id);
 
 	}
-	
-	// ============ Cellakevero
-	
-	function shuffle(){
-		var xwalker;
-		var ywalker;
-		for(var i=0;i<nrow*ncell*6;i++){
-			rowwalker=Math.floor(empty/ncell);
-			cellwalker=empty%ncell;
-	
-			switch(Math.floor(Math.random()*4)) {
-			case 0: // right or left
-			    cellwalker+=(cellwalker<ncell-1)?1:-1;
-				break;
-			case 1: // left or right
-			    cellwalker+=(cellwalker>0)?-1:1;
-				break;
-			case 2: // down or up
-			    rowwalker+=(rowwalker<nrow-1)?1:-1;
-				break;
-			case 3: // up or down
-				rowwalker+=(rowwalker>0)?-1:1;
-				break;
-			}
-			mystep(document.getElementById((rowwalker*ncell+cellwalker).toString()));
-		    }
-	    }
-	}
+}
 
 
 
