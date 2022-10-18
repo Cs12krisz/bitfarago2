@@ -138,17 +138,25 @@
 	document.getElementById("pontx").innerHTML = pontx
 	document.getElementById("ponto").innerHTML = ponto
 
+		
+
     // ============ Lepesek kezelese
 	function mystep(obj){
 	    // Use for testing
 		kor += 1
-		if(kor%2 == 0){	
+		if(kor%2 === 1){	
 		document.getElementById("kov").innerHTML = "Játékos 1 következik"
-		kor+1
-		document.getElementById(obj.id).innerHTML= '<img src="kep/x.png" width="50" id="x">';
-		document.getElementById(obj.id).style.paddingBottom= "0px";
-		document.getElementById("x").style.marginBottom= "0px";
-		pontx= pontx+1
+		
+		if(document.getElementById(obj.id).innerHTML == '<img src="kep/x.png" width="50" id="x">' || document.getElementById(obj.id).innerHTML == '<img src="kep/o.png" width="50" id="o">'){
+			alert("nem lehet")
+			
+		}else{
+			document.getElementById(obj.id).innerHTML= '<img src="kep/x.png" width="50" id="x">';
+			document.getElementById(obj.id).style.paddingBottom= "0px";
+			document.getElementById("x").style.marginBottom= "0px";
+			
+		}
+		
         if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
         obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
             pontx = pontx+1
@@ -158,14 +166,22 @@
         }else{
             pontx = pontx+3
         }
+		kor+1
 		document.getElementById("pontx").innerHTML = pontx
 	}
-		else if(kor%2 == 1){
+		else{
 		document.getElementById("kov").innerHTML = "Játékos 2 következik"
-		kor + 1
-		document.getElementById(obj.id).innerHTML= '<img src="kep/o.png" width="50" id="o">';
-		document.getElementById(obj.id).style.paddingBottom= "0px";
-		document.getElementById("o").style.marginBottom= "0px";
+
+		if(document.getElementById(obj.id).innerHTML == '<img src="kep/x.png" width="50" id="x">' || document.getElementById(obj.id).innerHTML == '<img src="kep/o.png" width="50" id="o">'){
+			alert("nem lehet")
+			
+		}else{
+			document.getElementById(obj.id).innerHTML= '<img src="kep/o.png" width="50" id="o">';
+			document.getElementById(obj.id).style.paddingBottom= "0px";
+			document.getElementById("o").style.marginBottom= "0px";
+			
+		}
+		
         if(obj.id == 0 || obj.id == 1 || obj.id == 2 || obj.id == 3 || obj.id == 4 || obj.id == 5 || obj.id == 6 || obj.id == 11 || obj.id == 12 || obj.id == 17 ||
         obj.id == 18 || obj.id == 23 || obj.id == 24 || obj.id == 29 || obj.id == 30 || obj.id == 31 || obj.id == 32 ||obj.id == 33 || obj.id == 34 || obj.id == 35){
 			ponto = ponto+1
@@ -175,12 +191,27 @@
         }else{
 			ponto = ponto+3
 		}
+		kor + 1
 		document.getElementById("ponto").innerHTML = ponto 
+	}
+
+	if(obj.id == 0 && obj.id == 1 && obj.id == 2 && obj.id == 3 && obj.id == 4 && obj.id == 5 && obj.id == 6 && obj.id == 11 && obj.id == 12 && obj.id == 17 &&
+        obj.id == 18 && obj.id == 23 && obj.id == 24 && obj.id == 29 && obj.id == 30 && obj.id == 31 && obj.id == 32 && obj.id == 33 && obj.id == 34 && obj.id == 35 && obj.id == 7 && obj.id == 8 && obj.id == 9 && obj.id == 10 && obj.id == 13 && obj.id == 16 && obj.id == 19 && 
+        obj.id == 22 && obj.id == 25 && obj.id == 26 && obj.id == 27 && obj.id == 28 && obj.id == 14 && obj.id == 21 && obj.id == 15 && obj.id == 20 === document.getElementById(obj.id).innerHTML == '<img src="kep/x.png" width="50" id="x">' || document.getElementById(obj.id).innerHTML == '<img src="kep/o.png" width="50" id="o">'){
+		if(pontx > ponto){
+			alert("Játékos 1 nyert")
+		}else if(pontx == ponto){
+			alert("Döntetlen")
+		}else{
+			alert("Játékos 2 nyert")
+		}
 	}
 
 	console.log('Ooops! '+obj.id+' ('+Math.floor(obj.id/ncell)+', '+obj.id%ncell+')');
         var nid = parseInt(obj.id);
 	}
+
+	
 }
 	// ============ Cellakevero
 	
